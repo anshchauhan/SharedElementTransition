@@ -35,10 +35,14 @@ public class MainActivity extends Activity {
 
     private static final int PHOTO_COUNT = 12;
 
-    @Bind(R.id.image_grid) RecyclerView grid;
-    @Bind(android.R.id.empty) ProgressBar empty;
-    @BindInt(R.integer.photo_grid_columns) int columns;
-    @BindDimen(R.dimen.grid_item_spacing) int gridSpacing;
+    @Bind(R.id.image_grid)
+    RecyclerView grid;
+    @Bind(android.R.id.empty)
+    ProgressBar empty;
+    @BindInt(R.integer.photo_grid_columns)
+    int columns;
+    @BindDimen(R.dimen.grid_item_spacing)
+    int gridSpacing;
     private PhotoAdapter adapter;
     private String photoUrlBase;
 
@@ -76,18 +80,19 @@ public class MainActivity extends Activity {
 
         ItemClickSupport.addTo(grid).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View view) {
-                Photo photo = adapter.getItem(position);
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(photoUrlBase + photo.id));
-                intent.putExtra(DetailActivity.EXTRA_AUTHOR, photo.author);
-                MainActivity.this.startActivity(intent,
-                        ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, view,
-                                view.getTransitionName()).toBundle());
-            }
-        });
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View view) {
+                        Photo photo = adapter.getItem(position);
+                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(photoUrlBase + photo.id));
+                        intent.putExtra(DetailActivity.EXTRA_AUTHOR, photo.author);
+                        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, view,
+                                view.getTransitionName()).toBundle();
+                        MainActivity.this.startActivity(intent,
+                                bundle);
+                    }
+                });
 
         UnsplashService unsplashApi = new RestAdapter.Builder()
                 .setEndpoint(UnsplashService.ENDPOINT)
@@ -114,7 +119,8 @@ public class MainActivity extends Activity {
 
     /* protected */ static class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.photo) ForegroundImageView imageView;
+        @Bind(R.id.photo)
+        ForegroundImageView imageView;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
